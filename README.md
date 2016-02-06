@@ -9,3 +9,7 @@ This may be a work in progress and will take some time to
 gain all functionality, but will certainly be extensive in
 its entirety. I've added many unused blocks only to allow 
 for their use later, or ultimate elimination from this project.
+
+All utilities were created by Pat Callahan of Cincinnati State
+Technical and Community College. They're used with his expressed 
+permission. All such files are subject to his rights to his work.
