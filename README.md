@@ -16,5 +16,4 @@ permission. All such files are subject to his rights to his work.
 
 [TopherLee513]: <https://github.com/TopherLee513>
 [TicTacTux]: <https://github.com/TopherLee513/TicTacTux-Java>
-[Cincinnati State
-Technical and Community College]: <http://www.cincinnatistate.net/>
+[Cincinnati State Technical and Community College]: <http://www.cincinnatistate.net/>
