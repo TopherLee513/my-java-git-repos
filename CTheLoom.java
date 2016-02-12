@@ -1,4 +1,6 @@
 // github.com/glchisenhall
+// By: Gary Chisenhall
+// February 2016
 
 
 //Imports
