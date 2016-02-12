@@ -1,4 +1,4 @@
-# my-java-git-repos
+# TicTacTux
 Starter repository
 This is a beginning run of code for an A Sai Loom Prod Gekt.
 Initial respects go to Topher513, for a spin off from his 
