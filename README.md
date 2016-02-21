@@ -9,15 +9,15 @@ gain all functionality, but will certainly be extensive in
 its entirety. I've added many unused blocks only to allow 
 for their use later, or ultimate elimination from this project.
 
-Packages
+#####Packages
 
-//default*
+######/default*
 
 CTheLoom.java
 
 FSai.java
 
-//Insanities
+######/Insanities
 
 CInsanities.java
 
