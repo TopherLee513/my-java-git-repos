@@ -1,6 +1,14 @@
 // github.com/glchisenhall
-// By: Gary Chisenhall
-// February 2016
+
+// ----------------------------------------------------------------------
+// Name: Gary Chisenhall 
+// Class: FSai
+//
+// Version			Notes
+// 2016/02/08		Created as v0.1 	- Form layout and grid lines
+// 2016/02/10		Updated to v0.2b 	- Working game with support files
+// 2016/02/21		Updated to v0.3		- Updated to independent file structure 
+// ----------------------------------------------------------------------
 
 // Imports
 import java.awt.*;
@@ -8,13 +16,15 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import Utilities.*;
-import Utilities.CMessageBox.enuButtonType;
-import Utilities.CMessageBox.enuIconType;
+import Insanities.*;
+import Insanities.CInsanities.enuButtonType;
+import Insanities.CInsanities.enuIconType;
 
+/*
 //For possible later use
-//import java.sql.*;
-//import com.microsoft.sqlserver.jdbc.*;
+import java.sql.*;
+import com.microsoft.sqlserver.jdbc.*;
+*/
 
 // Warning suppression
 @SuppressWarnings( {"serial"} )
@@ -23,7 +33,7 @@ import Utilities.CMessageBox.enuIconType;
 public class FSai extends JFrame implements ActionListener
 {
 	private String[] 	SYMBOLS			= {"X", "O"};
-	private int 		PLAYER_TURN		= 0;
+	private int 		PlayerTurn		= 0;
 	private JButton 	m_btnExit 		= null;
 	private JButton 	m_btnTile9 		= null;
 	private JButton 	m_btnTile8 		= null;
@@ -51,7 +61,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 				
 	}
@@ -78,7 +88,7 @@ public class FSai extends JFrame implements ActionListener
 			getContentPane( ).setBackground( Color.BLACK );
 			
 			// Center screen
-			CUtilities.CenterScreen( this );
+			CInsanities.CenterScreen( this );
 			
 			// No resizing
 			setResizable( false );
@@ -89,7 +99,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 		
 	}
@@ -103,7 +113,7 @@ public class FSai extends JFrame implements ActionListener
 	public void paint( Graphics g )
 	{
 		super.paint( g );
-		CUtilities.DrawGridMarks( this, g );
+		CInsanities.DrawGridMarks( this, g );
 		
     }
 	*/
@@ -152,7 +162,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 		
 	}
@@ -205,7 +215,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 		return btnNewButton;
 	}
@@ -266,7 +276,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 	}
 
@@ -286,7 +296,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 	}
 
@@ -313,7 +323,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 	}
 	
@@ -348,7 +358,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 	}
 //region Game Tile Actions
@@ -367,20 +377,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile9.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile9.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile9.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 		// --------------------------------------------------------------------------------
@@ -397,20 +407,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile8.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile8.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile8.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 		// --------------------------------------------------------------------------------
@@ -427,20 +437,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile7.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile7.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile7.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 		// --------------------------------------------------------------------------------
@@ -457,20 +467,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile6.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile6.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile6.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 		// --------------------------------------------------------------------------------
@@ -487,20 +497,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile5.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile5.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile5.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 		// --------------------------------------------------------------------------------
@@ -517,20 +527,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile4.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile4.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile4.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}	
 		// --------------------------------------------------------------------------------
@@ -547,20 +557,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile3.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile3.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile3.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 		// --------------------------------------------------------------------------------
@@ -577,20 +587,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile2.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile2.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile2.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 		// --------------------------------------------------------------------------------
@@ -607,20 +617,20 @@ public class FSai extends JFrame implements ActionListener
 			    }
 			    else
 			    // Put the player's symbol on the tile
-			    m_btnTile1.setText(SYMBOLS[PLAYER_TURN]);
+			    m_btnTile1.setText(SYMBOLS[PlayerTurn]);
 			  //Tile button disabled
 			    m_btnTile1.setEnabled(false);
 				    // Change the turn
-			    PLAYER_TURN++;
-			    if(PLAYER_TURN >= SYMBOLS.length) {
-			    	PLAYER_TURN = 0;
+			    PlayerTurn++;
+			    if(PlayerTurn >= SYMBOLS.length) {
+			    	PlayerTurn = 0;
 			    }
 			    checkWin();
 			}
 			catch( Exception excError )
 			{
 				// Display error message
-				CUtilities.WriteLog( excError );
+				CInsanities.WriteLog( excError );
 			}
 		}
 //endregion
@@ -640,7 +650,7 @@ public class FSai extends JFrame implements ActionListener
 					m_btnTile1.getText() == "X" && m_btnTile4.getText() == "X" && m_btnTile7.getText() == "X" ||
 					m_btnTile2.getText() == "X" && m_btnTile5.getText() == "X" && m_btnTile8.getText() == "X" ||
 					m_btnTile3.getText() == "X" && m_btnTile6.getText() == "X" && m_btnTile9.getText() == "X") {
-				CMessageBox.Show(this, "Player one wins!", "Winner", enuIconType.Warning, enuButtonType.OK);
+				CInsanities.Show(this, "Player one wins!", "Winner", enuIconType.Warning, enuButtonType.OK);
 				btnNewGame_Click();
 			}
 			else if(m_btnTile1.getText() == "O" && m_btnTile2.getText() == "O" && m_btnTile3.getText() == "O" ||
@@ -651,14 +661,14 @@ public class FSai extends JFrame implements ActionListener
 					m_btnTile1.getText() == "O" && m_btnTile4.getText() == "O" && m_btnTile7.getText() == "O" ||
 					m_btnTile2.getText() == "O" && m_btnTile5.getText() == "O" && m_btnTile8.getText() == "O" ||
 					m_btnTile3.getText() == "O" && m_btnTile6.getText() == "O" && m_btnTile9.getText() == "O"){
-				CMessageBox.Show(this, "Player two wins!", "Winner", enuIconType.Warning, enuButtonType.OK);
+				CInsanities.Show(this, "Player two wins!", "Winner", enuIconType.Warning, enuButtonType.OK);
 				btnNewGame_Click();
 			}
 			else if(!m_btnTile1.isEnabled()&& !m_btnTile2.isEnabled()&& !m_btnTile3.isEnabled()&&
 					!m_btnTile4.isEnabled()&& !m_btnTile5.isEnabled()&& !m_btnTile6.isEnabled()&&
 					!m_btnTile7.isEnabled()&& !m_btnTile8.isEnabled()&& !m_btnTile9.isEnabled()){
 
-				CMessageBox.Show(this, "Draw!", "No Winner", enuIconType.Warning, enuButtonType.OK);
+				CInsanities.Show(this, "Draw!", "No Winner", enuIconType.Warning, enuButtonType.OK);
 				btnNewGame_Click();
 			
 			}
@@ -678,7 +688,7 @@ public class FSai extends JFrame implements ActionListener
 		catch( Exception excError )
 		{
 			// Display error message
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 	}
 }
