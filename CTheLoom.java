@@ -1,10 +1,16 @@
 // github.com/glchisenhall
-// By: Gary Chisenhall
-// February 2016
+
+// ----------------------------------------------------------------------
+// Name: Gary Chisenhall 
+// Class: CTheLoom
+//
+// Version		Notes
+// 2016/02/08		Main
+// ----------------------------------------------------------------------
 
 
 //Imports
-import Utilities.*;
+import Insanities.*;
 
 public class CTheLoom 
 {
@@ -19,7 +25,7 @@ public class CTheLoom
 		}
 		catch( Exception excError)
 		{
-			CUtilities.WriteLog( excError );
+			CInsanities.WriteLog( excError );
 		}
 
 	}
