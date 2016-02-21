@@ -12,9 +12,12 @@ for their use later, or ultimate elimination from this project.
 Packages
 
 //default*
+
 CTheLoom.java
+
 FSai.java
 
 //Insanities
-CInsanities
+
+CInsanities.java
 
