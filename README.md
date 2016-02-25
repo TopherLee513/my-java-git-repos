@@ -3,9 +3,10 @@
 > Forked from https://github.com/glchisenhall/my-java-git-repos
 
 #Changelog:
-v0.1
-- GUI and buttons working
-- game logic coming soon
+Version			Notes
+2016/02/08		Created as v0.1 	- Form layout and grid lines
+2016/02/10		Updated to v0.2b 	- Working game with support files
+2016/02/21		Updated to v0.3		- Updated to independent file structure
 
 #Starter repository:
 This is a beginning run of code for an A Sai Loom Prod Gekt.
@@ -22,6 +23,18 @@ for their use later, or ultimate elimination from this project.
 All utilities were created by Pat Callahan of [Cincinnati State
 Technical and Community College]. They're used with his expressed 
 permission. All such files are subject to his rights to his work.
+
+#####Packages
+
+######/default*
+
+CTheLoom.java
+
+FSai.java
+
+######/Insanities
+
+CInsanities.java
 
 [TopherLee513]: <https://github.com/TopherLee513>
 [TicTacTux]: <https://github.com/TopherLee513/TicTacTux-Java>

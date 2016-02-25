@@ -1,0 +1,503 @@
+// github.com/glchisenhall
+
+// ----------------------------------------------------------------------
+// Name: Gary Chisenhall 
+// Class: CInsanities
+//
+// Version			Notes
+// 2016/02/13		Created as v1
+// 2016/02/21		Updated as v1.1
+// ----------------------------------------------------------------------
+
+//----------------------------------------------------------------------
+//Package
+//----------------------------------------------------------------------
+package Insanities;
+
+//----------------------------------------------------------------------
+//Imports
+//----------------------------------------------------------------------
+import java.text.*;			// DateFormat, SimpleDateFormat
+import java.util.*;			// Date
+import java.io.*;			// BufferedReader
+import java.awt.*;			// All kinds of stuff: container, window, etc
+import java.awt.event.*;	// ActionListener
+
+import javax.swing.*;		// JEverything
+
+
+
+@SuppressWarnings("unused")
+public class CInsanities {
+	
+		// ----------------------------------------------------------------------
+		// ----------------------------------------------------------------------
+		// Constants
+		// ----------------------------------------------------------------------
+		// ----------------------------------------------------------------------
+		public static final 	int 	intRESULT_OK			= JOptionPane.OK_OPTION;
+		public static final 	int 	intRESULT_CANCEL		= JOptionPane.CANCEL_OPTION;
+		public static final 	int 	intRESULT_YES			= JOptionPane.YES_OPTION;
+		public static final 	int 	intRESULT_NO			= JOptionPane.NO_OPTION;
+		private static final 	String 	m_strLOG_FILE_EXTENSION = ".log";
+		
+		// days * hours * minutes * seconds * milliseconds
+		private static final long lng10_DAYS = 10 * 24 * 60 * 60 * 1000; 
+		
+		// ----------------------------------------------------------------------
+		// ----------------------------------------------------------------------
+		// Properties( never make public )
+		// ----------------------------------------------------------------------
+		// ----------------------------------------------------------------------
+		private static String m_strOldLogFileAndPath = "";
+		private static BufferedWriter m_buwLogFile = null;
+		
+
+		// ----------------------------------------------------------------------
+		// Name: CenterScreen
+		// Abstract: Center the frame in the screen
+		// ----------------------------------------------------------------------
+		public static void CenterScreen( JFrame fraTarget )
+		{
+			try
+			{
+				Point pntCenter;
+				int intTop = 0;
+				int intLeft = 0;
+
+				// Get center of screen
+				pntCenter = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+				
+				// Top/Left Coordinates
+				intTop = (int) pntCenter.y - ( fraTarget.getHeight( ) / 2 );
+				intLeft = (int) pntCenter.x - ( fraTarget.getWidth( ) / 2 );
+
+				// Center Target
+				fraTarget.setLocation( intLeft, intTop );
+			}
+			catch( Exception excError )
+			{
+				// Display Error Message
+				WriteLog( excError );
+			}
+		}
+		// ----------------------------------------------------------------------
+		// Name: DrawGridMarks
+		// Abstract: Draw grid marks along the top and the left side to make
+		//			 placing controls easier.  Add a paint method to your class
+		//			 to override the default behavior and add a call to this
+		//			 procedure.  For example:
+		//
+		//			public void paint( Graphics g )
+		//			{
+		//				super.paint( g );
+		//				CInsanities.DrawGridMarks( this, g );
+		//			}
+		//
+		// ----------------------------------------------------------------------
+		public static void DrawGridMarks( JFrame fraSource, Graphics graTarget )
+		{
+			try
+			{
+				int intColumn = 0;
+				int intRow = 0;
+				int intTitleBarHeight = 0;
+
+				// Make the font a little smaller
+				graTarget.setFont( new Font( graTarget.getFont( ).getName( ), 
+											 graTarget.getFont( ).getStyle( ), 
+								     (int) ( graTarget.getFont( ).getSize( ) * 0.75f ) ) );
+				
+				// Don't count height of title bar
+				intTitleBarHeight = fraSource.getInsets().top;
+				
+				// Grid lines across the top
+				for( intColumn = 20; intColumn < fraSource.getWidth( ); intColumn += 20 )
+				{
+					// Little mark
+					graTarget.drawLine( intColumn - 10, intTitleBarHeight, intColumn - 10, intTitleBarHeight + 2 );
+					// Big mark
+					graTarget.drawLine( intColumn, intTitleBarHeight, intColumn, intTitleBarHeight + 5 );
+					// Big mark distances
+					graTarget.drawString( "" + intColumn , intColumn - 5 , intTitleBarHeight + 15 );
+				}
+
+				// Grid lines down the side
+				for( intRow = 20; intRow < fraSource.getHeight( ); intRow += 20 )
+				{
+					// Little mark
+					graTarget.drawLine( 0, intTitleBarHeight + intRow - 10, 4, intTitleBarHeight + intRow - 10 );
+					// Big mark
+					graTarget.drawLine( 0, intTitleBarHeight + intRow, 7, intTitleBarHeight + intRow );
+					// Big mark distance
+					graTarget.drawString( "" + intRow , 8, intTitleBarHeight + intRow + 3 );
+				}
+				
+			}
+			catch( Exception excError )
+			{
+				// Display Error Message
+				WriteLog( excError );
+			}
+		}
+
+		// --------------------------------------------------------------------------------
+		// Name: AddButton
+		// Abstract: Add a button to the form
+		// --------------------------------------------------------------------------------
+		
+		private JButton AddButton( Container conParent, ActionListener alParent,
+								String strCaption, char chrKeyboardShortcut,
+								int intTop, int intLeft, 
+								int intHeight, int intWidth )
+		{
+			
+			JButton btnNewButton = null;
+			
+			try
+			{
+				// Create instance
+				btnNewButton = new JButton( strCaption );
+					
+				// Add to parent container
+				conParent.add( btnNewButton );
+				
+				// Set position and size 
+				btnNewButton.setBounds( intLeft, intTop, intWidth, intHeight );
+
+				// Keyboard shortcut?
+				if( chrKeyboardShortcut != ' ' ) btnNewButton.setMnemonic( chrKeyboardShortcut );
+				
+				if( alParent != null )
+				{
+					btnNewButton.addActionListener( alParent );
+				}
+				// Set font, style, and size of JButton
+				btnNewButton.setFont( new Font( "Chiller", Font.BOLD, 44 ) );
+			
+				// Set to no border
+				btnNewButton.setBorder(null);
+				
+				// Set to no focus border
+				btnNewButton.setFocusPainted(false);
+				
+				// Set background color of JButton
+				btnNewButton.setBackground( Color.BLACK );
+				
+				// Set foreground color of JButton (font color)
+				btnNewButton.setForeground( Color.RED );
+			}
+			catch( Exception excError )
+			{
+				// Display error message
+				WriteLog( excError );
+			}
+			return btnNewButton;
+		}
+
+		// ----------------------------------------------------------------------
+		// Name: WriteLog
+		// Abstract: Write to the log file and display a warning to the user.
+		// ----------------------------------------------------------------------
+		public static void WriteLog( Exception excError )
+		{
+			try
+			{
+				boolean blnDisplay = true;
+				
+				WriteLog( excError, blnDisplay );
+			}
+			catch( Exception expWriteLogError )
+			{
+				// Display Error Message
+				expWriteLogError.printStackTrace( );
+			}
+		}
+
+		// ----------------------------------------------------------------------
+		// Name: WriteLog
+		// Abstract: Write to the log file and optionally display a warning 
+		//			to the user.
+		// ----------------------------------------------------------------------
+		public static void WriteLog( Exception excError, boolean blnDisplay )
+		{
+			try
+			{
+				String strMessage = "";
+				int intIndex = 0;
+
+				// Get the stack trace messages from the exception class
+				StackTraceElement asteStackTrace[] = excError.getStackTrace( );
+				
+				// Loop through all the procedure calls
+				for( intIndex = asteStackTrace.length - 1; intIndex >= 0; intIndex-- )
+				{ 
+					// Is there a line number?
+					if( asteStackTrace[ intIndex ].toString( ).contains( ":" ) == true )
+					{
+						// Yes, so that means it's one of our classes so add it to the message
+						strMessage += asteStackTrace[ intIndex ].toString( ) + "\n\t";
+					}
+				}
+				
+				// Remove trailing tab
+				strMessage = strMessage.substring( 0, strMessage.length( ) - 1 );
+				
+				// Add the message
+				strMessage += excError.getMessage();
+				
+				WriteLog( strMessage, blnDisplay );
+			}
+			catch( Exception expWriteLogError )
+			{
+				// Display Error Message
+				expWriteLogError.printStackTrace( );
+			}
+		}
+
+		
+
+		// ----------------------------------------------------------------------
+		// Name: WriteLog
+		// Abstract: Write to the log file and optionally display a warning 
+		//			to the user.
+		// ----------------------------------------------------------------------
+		public static void WriteLog( String strMessage, boolean blnDisplay )
+		{
+			try
+			{
+				BufferedWriter buwLogFile = null;
+				String astrMessageLines[] = null;
+				int intIndex = 0;
+				
+				// yyyy/mm/dd
+				SimpleDateFormat sdfYearMonthDayTime = new SimpleDateFormat( "yyyy/MM/dd hh:mm:ss" );
+				
+				String strNow = sdfYearMonthDayTime.format( new Date( ) );
+				
+				// Display the error message?
+				if( blnDisplay == true )
+				{
+					// No, warn the user
+					JOptionPane.showMessageDialog( null, strMessage, "WriteLog", JOptionPane.OK_OPTION );
+				}
+				
+				// Append a date/time stamp
+				strMessage = strNow + " - " + strMessage + "\n";
+				
+				// Get a log file
+				buwLogFile = GetLogFile( );
+				
+		    	// Is the file OK?	
+				if( buwLogFile != null )
+				{
+					// Yes, so log message( use newline function to ensure cross-platform compatibility )
+					astrMessageLines = strMessage.split( "\n" );
+					for( intIndex = 0; intIndex < astrMessageLines.length; intIndex++ )
+					{
+						buwLogFile.write( astrMessageLines[ intIndex ] );
+						buwLogFile.newLine( );
+					}
+					// Flush buffer
+					buwLogFile.flush( );
+				}
+			}
+			catch( Exception excError )
+			{
+				// Display Error Message
+				excError.printStackTrace( );
+			}
+		}
+
+
+		// ----------------------------------------------------------------------
+		// Name: GetLogFile
+		// Abstract: Open the log file for writing.  Use today's date as part of
+		//           the file name.  Each day a new log file will be created.
+		//           Makes debug easier.
+		// ----------------------------------------------------------------------
+		private static BufferedWriter GetLogFile( )
+		{
+			try
+			{
+				// yyyy/mm/dd
+				SimpleDateFormat sdfYearMonthDay = new SimpleDateFormat( "yyyyMMdd" );
+				String strToday = sdfYearMonthDay.format( new Date( ) );
+				String strLogFileDirectory = "";
+				String strLogFileAndPath = "";
+				File filLogDirectory = null; 
+		
+			    // Log everything in a log directory off of the current application directory
+			    strLogFileDirectory = System.getProperty( "user.dir" ) + "\\Log\\";
+			    strLogFileAndPath = strLogFileDirectory + strToday + m_strLOG_FILE_EXTENSION;
+			    
+			    // Is this a new day/log file?
+			    if( m_strOldLogFileAndPath != strLogFileAndPath )
+			    {
+			        // Create the log directory if it doesn't exist
+				    filLogDirectory = new File( strLogFileDirectory );
+			        if( filLogDirectory.exists( ) == false ) filLogDirectory.mkdir( );
+			        	
+			        // Save the log file name
+			        m_strOldLogFileAndPath = strLogFileAndPath;
+			            
+			        // Close file if it exists( not first time )
+			        if( m_buwLogFile != null ) m_buwLogFile.close( );
+		
+			        // Open file and append
+					m_buwLogFile = new BufferedWriter( new FileWriter( strLogFileAndPath, true ) );
+			        
+			        // Delete old log files
+			        DeleteOldLogFiles( );
+				}
+			}
+			catch( Exception excError )
+			{
+				// Display Error Message
+				excError.printStackTrace( );
+			}
+			
+			// Return result
+			return m_buwLogFile;
+		}
+
+
+		// ----------------------------------------------------------------------
+		// Name: DeleteOldLogFiles
+		// Abstract:  Delete any log files old than 10 days.
+		// ----------------------------------------------------------------------
+		private static void DeleteOldLogFiles( )
+		{
+			try
+			{
+				String strLogFileDirectory = "";
+				File filLogDirectory = null;
+				File afilLogFiles[] = null;
+				int intIndex = 0;
+				File filLogFile = null;
+				long lngMilliSecondsOld = 0;
+				Date dtmLastModified = null;
+						
+				// Log file directory
+			    strLogFileDirectory = System.getProperty( "user.dir" ) + "\\Log\\";
+				filLogDirectory = new File( strLogFileDirectory );	    
+				
+			    // Look for any log files
+			    afilLogFiles = filLogDirectory.listFiles( );
+			    
+				// Check the date of each file
+				for( intIndex = 0; intIndex < afilLogFiles.length; intIndex++ )
+				{
+					// Next log file
+					filLogFile = afilLogFiles[ intIndex ];
+		
+					// Is this a log file?
+					if( ( filLogFile.getName( ) ).endsWith( m_strLOG_FILE_EXTENSION ) == true )
+					{
+						// When was the file last modified?
+						lngMilliSecondsOld = filLogFile.lastModified( );
+						
+						// Add 10 days and make a date
+						lngMilliSecondsOld += lng10_DAYS;
+						dtmLastModified = new Date( lngMilliSecondsOld );
+						
+						// Is the file older than 10 days?
+						if( dtmLastModified.before( new Date( ) ) == true )
+						{
+							// Yes.  Delete it
+							filLogFile.delete( );
+						}
+					}
+				}
+			}
+			catch( Exception excError )
+			{
+				// Display Error Message
+				excError.printStackTrace( );
+			}
+		}
+		// -------------------------------------------------------------------------
+		// Name: enuIconType
+		// Abstract: Put a wrapper around the icon types for JOptionPane so we
+		//		don't have to sort through a longer list trying to figure out
+		//		what icons are available for use.
+		// -------------------------------------------------------------------------
+		public static enum enuIconType
+		{
+			Plain(JOptionPane.PLAIN_MESSAGE),				// Nothing	
+			Information(JOptionPane.INFORMATION_MESSAGE),	// |
+			Question(JOptionPane.QUESTION_MESSAGE),			// ?
+			Warning(JOptionPane.WARNING_MESSAGE),			// !
+			Error(JOptionPane.ERROR_MESSAGE);				// X
+
+			private int m_intIconType;
+			
+			private enuIconType(int intIconType)
+			{
+				m_intIconType = intIconType;
+			}		
+			public int GetCode( )
+			{
+				return m_intIconType;
+			}		
+		}
+		// -------------------------------------------------------------------------
+		// Name: enuButtonType
+		// Abstract: Put a wrapper around the button types for JOptionPane so we
+		//		don't have to sort through a longer list trying to figure out
+		//		what buttons are available for use.
+		// -------------------------------------------------------------------------
+		public static enum enuButtonType
+		{
+			OK(JOptionPane.DEFAULT_OPTION),
+			OK_CANCEL(JOptionPane.OK_CANCEL_OPTION),
+			YES_NO(JOptionPane.YES_NO_OPTION),
+			YES_NO_CANCEL(JOptionPane.YES_NO_CANCEL_OPTION);
+
+			private int m_intButtonType;
+			
+			private enuButtonType(int intButtonType)
+			{
+				m_intButtonType = intButtonType;
+			}		
+			public int GetCode( )
+			{
+				return m_intButtonType;
+			}		
+		}
+
+		// -------------------------------------------------------------------------
+		// Name: Show
+		// Abstract: Show a message box with message and caption and a decorative icon
+		// -------------------------------------------------------------------------
+		public static int Show( Component comParent, String strMessage, String strCaption, 
+					            enuIconType enuIcon, enuButtonType enuButtons )
+		{
+			int intResult = 0;
+			
+			try
+			{
+				
+				// Option Type, Message Type, Icon
+				// Option Types:
+				//		    YES_OPTION
+				//		    YES_NO_OPTION
+				//		    YES_NO_CANCEL_OPTION
+				//		    OK_CANCEL_OPTION 
+				
+				// Parent Container, Message, Title/Caption, Option Type, Message Type (decorative icon)
+				intResult = JOptionPane.showConfirmDialog( comParent, strMessage, strCaption, 
+											   			   enuButtons.GetCode( ), enuIcon.GetCode( ) );
+			}
+			catch( Exception excError )
+			{
+				// Display Error Message
+				WriteLog( excError );
+			}
+			
+			return intResult;
+		}
+		
+
+
+}
